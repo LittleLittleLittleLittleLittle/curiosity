@@ -27,7 +27,7 @@ print len(ind)
 left = 8
 right = 8
 
-with PdfPages('/Users/xiao_yang/Documents/Life/Stock/projects/curiosity/plot/multipage_pdf.pdf') as pdf:
+with PdfPages('/Users/xiao_yang/Documents/Life/Stock/projects/curiosity/plot/spy.pdf') as pdf:
     for i in range(len(ind)):
         thisInd = ind[i]
         plotInd = i%9
