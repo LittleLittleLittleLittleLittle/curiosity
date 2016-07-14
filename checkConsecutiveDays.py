@@ -18,7 +18,7 @@ print data.tail()
 data.columns = ['date', 'open', 'high', 'low', 'close', 'volume']
 # data.date = pd.to_datetime(data.date)
 
-numDays = 5
+numDays = 8
 seq = data['close'].tolist()
 ind = findSubSequence(seq, numDays)
 print ind
