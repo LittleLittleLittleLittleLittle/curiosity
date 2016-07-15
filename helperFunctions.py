@@ -1,12 +1,12 @@
 
 
 
-def findSubSequence(seq, thresold):
+def findSubSequence(seq, thresold, jitter=0.001):
     n = len(seq)
     currSum = 0
     startIndex = []
     for i in range(1, n):
-        if seq[i] >= seq[i-1]:
+        if seq[i] >= seq[i-1]*(1-jitter):
             currSum += 1
             if currSum == thresold:
                 startIndex += [i]
