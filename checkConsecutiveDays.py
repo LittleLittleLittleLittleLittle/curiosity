@@ -27,7 +27,9 @@ print len(ind)
 left = 10
 right = 30
 dropPct = 0.01
+bigArchPct = 0.08
 numArch = 0
+numBigArch = 0
 
 with PdfPages('/Users/xiao_yang/Documents/Life/Stock/projects/curiosity/plot/spy.pdf') as pdf:
     for i in range(len(ind)):
@@ -44,20 +46,25 @@ with PdfPages('/Users/xiao_yang/Documents/Life/Stock/projects/curiosity/plot/spy
         # thisDate.reverse()
         thisPrice = data.ix[(thisInd-left):(thisInd+right), 'close'].tolist()
         dropLevel = thisPrice[left]*(1-dropPct)
+        color = 'black'
+        if min(thisPrice[left:]) <= dropLevel:
+            numArch += 1
+        if (thisPrice[left] - thisPrice[0])/thisPrice[0] >= bigArchPct:
+            numBigArch += 1
+            color = 'red'
         # thisPrice.reverse()
         plt.subplot(3, 3, plotInd+1)
         theseTicks = np.arange(0, len(thisDate), 3).tolist()
         plt.xticks(theseTicks, [thisDate[j] for j in theseTicks], fontsize=5, rotation=30)
         plt.yticks(fontsize=6)
         # ax.xaxis.set_major_formatter(myFmt)
-        plt.plot(range(len(thisDate)), thisPrice)
+        plt.plot(range(len(thisDate)), thisPrice, color=color)
         plt.plot((left-numDays, left-numDays), (min(thisPrice)-0.2, max(thisPrice)+0.2), 'k-')
         plt.plot((left, left), (min(thisPrice)-0.2, max(thisPrice)+0.2), 'k-')
         plt.plot((0, left+right), (dropLevel, dropLevel), 'k-')
         plt.grid(True)
 
-        if min(thisPrice[left:]) <= dropLevel:
-            numArch += 1
+
         # plt.gcf().autofmt_xdate()
         if plotInd==8 or i==(len(ind)-1):
             pdf.savefig()
@@ -65,3 +72,7 @@ with PdfPages('/Users/xiao_yang/Documents/Life/Stock/projects/curiosity/plot/spy
 
 print '# times that forms an arch is: ' + str(numArch)
 print 'The frequency of forming an arch is: ' + str(float(numArch)/len(ind))
+print '# times that forms a big arch is: ' + str(numBigArch)
+print 'The frequency of forming a Big arch is: ' + str(float(numBigArch)/len(ind))
+
+
